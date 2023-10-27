@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author LENOVO
  */
-public class ListaUsuario implements Iusuario {
+public class ListaUsuario implements IUsuario {
     private List<Usuario> listaUsuario;
     
     public ListaUsuario(){
@@ -23,7 +23,6 @@ public class ListaUsuario implements Iusuario {
         this.listaUsuario.add(T);
     }
     
-    @Override
     public ArrayList<Usuario> mostrarDatos(){
         ArrayList<Usuario> ListaU = new ArrayList(this.listaUsuario);
         return ListaU;

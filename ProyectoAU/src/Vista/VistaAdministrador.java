@@ -6,24 +6,72 @@ package vista;
 
 import entidades.Administrador;
 import entidades.Ruta;
-import Logica.ListaRuta;
+import Persistencia.ListaRuta;
 
 import java.util.Scanner;
 
 public class VistaAdministrador {
     private Administrador Administrador;
     private ListaRuta listaRuta;
+    
+    public void muestraMenu(){
+        System.out.println("**********************");
+        System.out.println(" [ RUTA SEGURA ]    ");
+        System.out.println("**********************");
+        System.out.println("---------------------------");
+        System.out.println(" 1. Inicio de sesion administrador ");
+        System.out.println(" 2. Entrar como cliente ");
+        System.out.println(" 3. Entrar como conductor ");
+        System.out.println(" 4. Salir del programa \n ");
+    }
+    
+       public void ejecutarMenu() {
+        int op;
+        do {
+            this.muestraMenu();
+            op = LectorDatos.leerInt("Seleccione una opcion");
+            switch (op) {
+                case 1:
+                    this.menuPrincipal();
+                    break;
+                case 2:
+                    //this.listaDeRutas();
+                    break;
+                case 3:
+                    //this.opBuscarRuta();
+                    break;
+                case 4:
+                    System.out.println("Ha sido un placer, cerrando programa...");
+                    break;
+                default:
+                    System.out.println("!! Opcion no valida ¡¡\n");
 
-    public VistaAdministrador(Administrador administrador, ListaRuta listaRuta) {
+            }
+
+        } while (op != 4);
+
+    }
+        
+     public VistaAdministrador(Administrador administrador, ListaRuta listaRuta) {
         this.Administrador = administrador;
         this.listaRuta = listaRuta;
     }
-
+    
+     
     public void menuPrincipal() {
         Scanner scanner = new Scanner(System.in);
         boolean salir = false;
-
+        System.out.print("Ingrese la contraseña: ");
+        String contraseña = scanner.nextLine();
+        
         while (!salir) {
+
+        if (contraseña.equals(Administrador.getContraseña())) {
+        System.out.println("Inicio de sesión correcto.");
+         } else {
+        System.out.println("Contraseña incorrecta.");
+        }
+
             System.out.println("╔══════════════════════════════════╗");
             System.out.println("║    Menú del Administrador   ║");
             System.out.println("║══════════════════════════════════║");
@@ -95,5 +143,5 @@ public class VistaAdministrador {
     public void mostrarRutas() {
         listaRuta.mostrarRutas();
     }
-}
+ }
 
