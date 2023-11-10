@@ -1,109 +1,114 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package vista;
 
+import Persistencia.IGuardadoRuta;
 import entidades.Administrador;
 import entidades.Ruta;
 import Persistencia.ListaRuta;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class VistaAdministrador {
-    private Administrador Administrador;
+
+    private Administrador administrador;
     private ListaRuta listaRuta;
-    
-    public void muestraMenu(){
-        System.out.println("**********************");
-        System.out.println(" [ RUTA SEGURA ]    ");
-        System.out.println("**********************");
-        System.out.println("---------------------------");
-        System.out.println(" 1. Inicio de sesion administrador ");
-        System.out.println(" 2. Entrar como cliente ");
-        System.out.println(" 3. Entrar como conductor ");
-        System.out.println(" 4. Salir del programa \n ");
-    }
-    
-       public void ejecutarMenu() {
-        int op;
-        do {
-            this.muestraMenu();
-            op = LectorDatos.leerInt("Seleccione una opcion");
-            switch (op) {
-                case 1:
-                    this.menuPrincipal();
-                    break;
-                case 2:
-                    //this.listaDeRutas();
-                    break;
-                case 3:
-                    //this.opBuscarRuta();
-                    break;
-                case 4:
-                    System.out.println("Ha sido un placer, cerrando programa...");
-                    break;
-                default:
-                    System.out.println("!! Opcion no valida ¡¡\n");
+    private IGuardadoRuta guardadoRuta;
 
-            }
+    private static final String CONTRASENA_CORRECTA = "admin";
 
-        } while (op != 4);
-
-    }
-        
-     public VistaAdministrador(Administrador administrador, ListaRuta listaRuta) {
-        this.Administrador = administrador;
+    public VistaAdministrador(Administrador administrador, ListaRuta listaRuta, IGuardadoRuta guardadoRuta) {
+        this.administrador = administrador;
         this.listaRuta = listaRuta;
+        this.guardadoRuta = guardadoRuta;
     }
-    
-     
+
     public void menuPrincipal() {
         Scanner scanner = new Scanner(System.in);
         boolean salir = false;
-        System.out.print("Ingrese la contraseña: ");
-        String contraseña = scanner.nextLine();
-        
+
         while (!salir) {
+            System.out.print("Ingrese la clave: ");
+            String contraseña = scanner.nextLine();
 
-        if (contraseña.equals(Administrador.getContraseña())) {
-        System.out.println("Inicio de sesión correcto.");
-         } else {
-        System.out.println("Contraseña incorrecta.");
-        }
+            if (contraseña.equals(CONTRASENA_CORRECTA)) {
+                System.out.println("Acceso permitido.");
 
-            System.out.println("╔══════════════════════════════════╗");
-            System.out.println("║    Menú del Administrador   ║");
-            System.out.println("║══════════════════════════════════║");
-            System.out.println("║ 1. Modificar precio de ruta ║");
-            System.out.println("║ 2. Consultar una ruta       ║");
-            System.out.println("║ 3. Mostrar todas las rutas  ║");
-            System.out.println("║ 4. Salir                    ║");
-            System.out.println("║══════════════════════════════════║");
-            System.out.print("Seleccione una opción: ");
+                while (!salir) {
+                    mostrarMenu();
+                    int opcion = scanner.nextInt();
+                    scanner.nextLine(); 
 
-            int opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpia el salto de línea
-
-            switch (opcion) {
-                case 1:
-                    modificarPrecioRuta();
-                    break;
-                case 2:
-                    consultarRuta();
-                    break;
-                case 3:
-                    mostrarRutas();
-                    break;
-                case 4:
-                    salir = true;
-                    break;
-                default:
-                    System.out.println("Opción no válida. Intente de nuevo.");
+                    switch (opcion) {
+                        case 1:
+                            modificarPrecioRuta();
+                            break;
+                        case 2:
+                            agregarRuta();
+                            break;
+                        case 3:
+                            consultarRuta();
+                            break;
+                        case 4:
+                            eliminarRuta();
+                            break;
+                        case 5:
+                            mostrarRutas();
+                            break;
+                        case 6:
+                            salir = true;
+                            break;
+                        default:
+                            System.out.println("Opción no válida. Intente de nuevo.");
+                    }
+                    }
+            } else {
+                System.out.println("Contraseña incorrecta");
             }
         }
     }
 
+    private void mostrarMenu() {
+        System.out.println("╔═══════════════════════════════════╗");
+        System.out.println("║    Menu del Administrador   ║");
+        System.out.println("║═══════════════════════════════════║");
+        System.out.println("║ 1. Modificar precio de ruta ║");
+        System.out.println("║ 2. Ingresar una nueva Ruta  ║");
+        System.out.println("║ 3. Consultar una ruta       ║");
+        System.out.println("║ 4. Eliminar ruta            ║");
+        System.out.println("║ 5. Mostrar todas las rutas  ║");
+        System.out.println("║ 6. Salir                    ║");
+        System.out.println("║═══════════════════════════════════║");
+        System.out.print("Seleccione una opcion: ");
+    }
+
+    public void agregarRuta() {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Ingrese los datos de la nueva ruta:");
+        System.out.print("Origen: ");
+        String origen = scanner.nextLine();
+        System.out.print("Destino: ");
+        String destino = scanner.nextLine();
+        System.out.print("Hora (HH:mm): ");
+        String horaStr = scanner.nextLine();
+        LocalTime hora = LocalTime.parse(horaStr);
+        System.out.print("Fecha (yyyy-MM-dd): ");
+        String fechaStr = scanner.nextLine();
+        LocalDate fecha = LocalDate.parse(fechaStr);
+        System.out.print("Código: ");
+        int codigo = scanner.nextInt();
+        System.out.print("Precio: ");
+        double precio = scanner.nextDouble();
+
+        Ruta nuevaRuta = new Ruta(origen, destino, hora, fecha, codigo, precio);
+
+        this.guardadoRuta.agregarRuta(nuevaRuta);
+
+        //listaRuta.mostrarRutas();
+
+        //scanner.close();
+    }
+    
     public void modificarPrecioRuta() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el código de la ruta a modificar: ");
@@ -114,7 +119,7 @@ public class VistaAdministrador {
         if (ruta != null) {
             System.out.print("Ingrese el nuevo precio: ");
             double nuevoPrecio = scanner.nextDouble();
-            Administrador.modificarPrecioRuta(ruta, nuevoPrecio);
+            administrador.modificarPrecioRuta(ruta, nuevoPrecio);
             System.out.println("Precio de la ruta modificado exitosamente.");
         } else {
             System.out.println("La ruta no existe.");
@@ -126,22 +131,40 @@ public class VistaAdministrador {
         System.out.print("Ingrese el código de la ruta a consultar: ");
         String codigo = scanner.nextLine();
         Ruta ruta = listaRuta.consultarRuta(codigo);
-        
-        if (ruta != null) {
-        System.out.println("Información de la ruta consultada:");
-        System.out.println("Código: " + ruta.getCodigo());
-        System.out.println("Origen: " + ruta.getOrigen());
-        System.out.println("Destino: " + ruta.getDestino());
-        System.out.println("Hora: " + ruta.getHora());
-        System.out.println("Fecha: " + ruta.getFecha());
-        System.out.println("Precio: " + ruta.getPrecio());
-    } else {
-        System.out.println("La ruta no existe.");
-    }
- }
 
+        if (ruta != null) {
+            System.out.println("Información de la ruta consultada:");
+            System.out.println("Código: " + ruta.getCodigo());
+            System.out.println("Origen: " + ruta.getOrigen());
+            System.out.println("Destino: " + ruta.getDestino());
+            System.out.println("Hora: " + ruta.getHora());
+            System.out.println("Fecha: " + ruta.getFecha());
+            System.out.println("Precio: " + ruta.getPrecio());
+        } else {
+            System.out.println("La ruta no existe.");
+        }
+    }
+    
+     public void eliminarRuta() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el código de la ruta que desea eliminar: ");
+        int codigoRuta = scanner.nextInt();
+
+        boolean rutaEncontrada = false;
+        for (Ruta ruta : listaRuta.rutas) {
+            if (ruta.getCodigo() == codigoRuta) {
+                listaRuta.eliminarRuta(codigoRuta);
+                rutaEncontrada = true;
+                System.out.println("Ruta con código " + codigoRuta + " eliminada correctamente.");
+                break;
+            }
+        }
+
+        if (!rutaEncontrada) {
+            System.out.println("No se encontró una ruta con el código " + codigoRuta + ".");
+        }
+    }
     public void mostrarRutas() {
         listaRuta.mostrarRutas();
     }
- }
-
+}

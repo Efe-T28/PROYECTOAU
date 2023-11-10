@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package entidades;
 
 import java.time.LocalDate;
@@ -74,7 +71,7 @@ public class Ruta {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-
+    
     @Override
     public String toString() {
         return "Ruta{" + "origen=" + origen + ", destino=" + destino + ", hora=" + hora + ", fecha=" + fecha + ", codigo=" + codigo + ", precio=" + precio + '}';

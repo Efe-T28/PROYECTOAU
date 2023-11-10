@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package Vista;
 
 import entidades.Administrador;
@@ -14,10 +11,12 @@ public class Main {
         Administrador administrador = new Administrador("NombreAdmin", "123456", "Dirección", "123456789", "contraseña", "admin");
         ListaRuta listaRuta = new ListaRuta(new IGuardadoRuta());
         
-        VistaAdministrador vistaAdmin = new VistaAdministrador(administrador, listaRuta);
+        IGuardadoRuta guardadoRuta = new IGuardadoRuta(); 
+        
+        VistaAdministrador vistaAdmin = new VistaAdministrador(administrador, listaRuta, guardadoRuta);
 
         
-        vistaAdmin.ejecutarMenu();
+       //vistaAdmin.ejecutarMenu();
         vistaAdmin.menuPrincipal();
       
     }

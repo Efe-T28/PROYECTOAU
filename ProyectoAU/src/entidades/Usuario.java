@@ -88,7 +88,7 @@ public abstract class Usuario {
     public abstract boolean inicioSesion();
         
     public String infoUsuario() {
-       return String.format("Nombre: %s\nCédula: %s\nDirección: %s\nTeléfono: %s\nUsername: %s",
+       return String.format("Nombre: %s\nCedula: %s\nDirección: %s\nTelefono: %s\nUsername: %s",
             this.nombre, this.cedula, this.direccion, this.telefono, this.username);
 }
 

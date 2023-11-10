@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Persistencia;
 
 import Logica.LogicaRuta;
@@ -10,7 +7,7 @@ import java.util.List;
 
 
 public class ListaRuta implements LogicaRuta {
-    private List<Ruta> rutas;
+    public List<Ruta> rutas;
 
     public ListaRuta(IGuardadoRuta rutaDT) {
         this.rutas = rutaDT.mostrarRuta();
@@ -20,7 +17,6 @@ public class ListaRuta implements LogicaRuta {
     public Ruta consultarRuta(String codigo) {
         for (Ruta ruta : rutas) {
             if (ruta.getCodigo() == Integer.parseInt(codigo)) {
-                // Puedes mostrar la información de la ruta o devolverla.
                 System.out.println("Ruta encontrada: " + ruta.toString());
                 return ruta ;
             }
@@ -39,4 +35,20 @@ public class ListaRuta implements LogicaRuta {
         }
     }
  }
-}
+
+    @Override
+    public void eliminarRuta(int codigoRuta) {
+        Ruta rutaAEliminar = null;
+        for (Ruta ruta : rutas) {
+            if (ruta.getCodigo() == codigoRuta) {
+                rutaAEliminar = ruta;
+                break;
+            }
+        }
+        if (rutaAEliminar != null) {
+            rutas.remove(rutaAEliminar);
+        }
+    }
+    }
+
+    
